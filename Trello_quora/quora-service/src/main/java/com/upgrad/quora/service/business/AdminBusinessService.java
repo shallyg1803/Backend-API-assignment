@@ -38,6 +38,9 @@ public class AdminBusinessService {
         if (userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
+        if(userAuthEntity.getLogout_at() != null){
+            throw new AuthorizationFailedException("ATHR-002","User is signed out");
+        }
 
         UsersEntity usersEntity = userAuthEntity.getUsersEntity();
         String role = usersEntity.getRole();

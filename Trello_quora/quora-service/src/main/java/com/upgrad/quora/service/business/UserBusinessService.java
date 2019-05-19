@@ -99,7 +99,7 @@ public class UserBusinessService {
     }
     public UsersEntity getUserFromToken(String authorization) throws SignOutRestrictedException{
         String [] bearerToken = authorization.split("Bearer ");
-        if(bearerToken[0] == "Bearer"){
+        if(bearerToken[0] != "Bearer"){
             throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
         }
         UserAuthEntity userAuthEntity = userDao.getUserAuthEntity(bearerToken[1]);
