@@ -51,10 +51,6 @@ public class AnswerBusinessService {
 
     }
 
-//    public AnswerEntity getAnswerByAnswerId(String uuid) {
-//        return answerDao.getUser(uuid);
-//    }
-
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity editedAnswerEntity(String answerId,String autherisation,String content) throws AuthorizationFailedException, AnswerNotFoundException {
         UserAuthEntity userAuthEntity = answerDao.getAccessToken(autherisation);
@@ -79,7 +75,8 @@ public class AnswerBusinessService {
         }
 
         answerEntity.setAns(content);
-        return answerDao.editAnswer(answerEntity);
+        answerDao.editAnswer(answerEntity);
+        return answerEntity;
 
 
     }
@@ -135,12 +132,14 @@ public class AnswerBusinessService {
         String user = usersEntity.getUserName();
         String role = usersEntity.getRole();
 
-        if((!(username.equals(user)))||(role != "admin")){
-            throw new AuthorizationFailedException("ATHR-003", "Only the answer owner or admin can delete the answer");
-        }
         if(answerEntity == null){
             throw new AnswerNotFoundException("ANS-001","Entered answer uuid does not exist");
         }
+
+        if((!(username.equals(user)))||(role != "admin")){
+            throw new AuthorizationFailedException("ATHR-003", "Only the answer owner or admin can delete the answer");
+        }
+
 
         answerDao.deleteUser(answerEntity);
         return answerEntity;
