@@ -49,6 +49,8 @@ public class AdminDao {
 
     public void deleteFromDB(UsersEntity usersEntity){
 
+        entityManager.remove(usersEntity);
+
     }
 
 }
