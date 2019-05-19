@@ -32,11 +32,10 @@ public class QuestionDao {
     }
 
     public List<QuestionEntity> getAllQuestions(String userId){
-        return entityManager.createNamedQuery("getAllQuestions", QuestionEntity.class).setParameter("uuid", userId).getResultList();
-//        TypedQuery<QuestionEntity> query = entityManager.createQuery("SELECT q.content from QuestionEntity q ", QuestionEntity.class);
-//        List<QuestionEntity> resultList = query.getResultList();
-//        return resultList;
-    }
+         UsersEntity usersEntity = entityManager.createNamedQuery("userByUserId", UsersEntity.class).setParameter("uuid", userId).getSingleResult();
+         Integer ID = usersEntity.getId();
+        return entityManager.createNamedQuery("getAllQuestions", QuestionEntity.class).setParameter("usersEntity.id", ID).getResultList();
+   }
 
     public QuestionEntity getUserByQuestionId(String questionId){
         try {
@@ -46,13 +45,6 @@ public class QuestionDao {
         }
     }
 
-//    public QuestionEntity getQuestionById(String userId){
-//        try {
-//            return entityManager.createNamedQuery("userByuserId", QuestionEntity.class).setParameter("uuid", userId).getSingleResult();
-//        } catch (NoResultException nre) {
-//            return null;
-//        }
-//    }
 
     public void updateQuestionEntity(QuestionEntity questionEntity){
         EntityTransaction transaction = entityManager.getTransaction();
@@ -66,18 +58,10 @@ public class QuestionDao {
 
     }
 
-    public void deleteQuestionEntity(String questioId){
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        try {
-            transaction.begin();
-            QuestionEntity questionEntity1 =entityManager.find(QuestionEntity.class, questioId);
-            entityManager.remove(questionEntity1);
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-        }
+    public void deleteQuestionEntity(QuestionEntity questionEntity){
+        entityManager.remove(questionEntity);
     }
+
 
     public UsersEntity checkUser(String userId){
         try {
@@ -87,16 +71,7 @@ public class QuestionDao {
         }
     }
 
-//    public List<QuestionEntity> getAllQuestion(String userId){
-//        try {
-//            return entityManager.createNamedQuery("questionsByUserId", QuestionEntity.class).setParameter("id", userId).getResultList();
-//        } catch (NoResultException nre) {
-//            return null;
-//        }
-//        TypedQuery<QuestionEntity> query = entityManager.createQuery("SELECT q from QuestionEntity q where q.uuid=userId", QuestionEntity.class);
-//        List<QuestionEntity> resultList = query.getResultList();
-//        return resultList;
-    }
+}
 
 
-//}
+

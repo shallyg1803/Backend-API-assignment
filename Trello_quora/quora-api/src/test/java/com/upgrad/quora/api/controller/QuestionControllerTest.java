@@ -1,4 +1,4 @@
-/*package com.upgrad.quora.api.controller;
+package com.upgrad.quora.api.controller;
 
 
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class QuestionControllerTest {
     public void createQuestionWithSignedOutUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/question/create?content=my_question").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).header("authorization", "database_accesstoken3"))
                 .andExpect(status().isForbidden())
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("ATHR-002"));
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value("ATHR-001"));
     }
 
     //This test case passes when you try to get the detail of all the questions and the JWT token entered exists in the database and the user corresponding to that JWT token is signed in.
@@ -154,4 +154,4 @@ public class QuestionControllerTest {
 
 
 }
-*/
+

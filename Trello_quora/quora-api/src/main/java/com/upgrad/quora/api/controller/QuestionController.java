@@ -36,7 +36,6 @@ public class QuestionController {
         List<QuestionEntity> questionsList = questionBusinessService.getQuestions(autherisation);
         List<QuestionDetailsResponse> questionDetailsResponse = new LinkedList<>();
         for(QuestionEntity q:questionsList){
-
             QuestionDetailsResponse qDetailsResponse = new QuestionDetailsResponse().id(q.getUuid()).content(q.getContent());
             questionDetailsResponse.add(qDetailsResponse);
         }
@@ -61,8 +60,8 @@ public class QuestionController {
     }
 
     @RequestMapping(method= RequestMethod.GET , path="question/all/{userId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestionsByUser (@PathVariable("questionId") final String userId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException, UserNotFoundException {
-        List<QuestionEntity> questionEntity = questionBusinessService.getAllQuestion(autherisation,userId);
+    public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestionsByUser (@PathVariable("userId") final String userId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException, UserNotFoundException {
+        List<QuestionEntity> questionEntity = questionBusinessService.getAllQuestions(autherisation,userId);
         List<QuestionDetailsResponse> questionDetailsResponse = new LinkedList<>();
         for(QuestionEntity q: questionEntity){
             QuestionDetailsResponse questionDetailsResponse1 = new QuestionDetailsResponse().id(q.getUuid()).content(q.getContent());
