@@ -16,7 +16,7 @@ public class AnswerDao {
 
     public QuestionEntity findEntity(String questionId){
         try {
-            return entityManager.createNamedQuery("findQuestionById", QuestionEntity.class).setParameter("uuid", questionId).getSingleResult();
+            return entityManager.createNamedQuery("userByQuestionId", QuestionEntity.class).setParameter("uuid", questionId).getSingleResult();
         }catch (NoResultException nre) {
             return null;
         }
@@ -45,35 +45,23 @@ public class AnswerDao {
         }
     }
 
-    public void editAnswer(AnswerEntity answerEntity) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            transaction.begin();
-            entityManager.merge(answerEntity);
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-        }
-
+    public AnswerEntity editAnswer(AnswerEntity answerEntity) {
+        entityManager.merge(answerEntity);
+        return answerEntity;
     }
 
-    public void deleteUser(String answerId){
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        try {
-            transaction.begin();
-            AnswerEntity answerEntity =entityManager.find(AnswerEntity.class, answerId);
-            entityManager.remove(answerEntity);
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-        }
+    public void deleteUser(AnswerEntity answerEntity){
+        entityManager.remove(answerEntity);
     }
 
     public List<AnswerEntity> findAllAnswersById(String questionId){
-        TypedQuery<AnswerEntity> query = entityManager.createQuery("SELECT u.content from AnswerEntity u where u.question_id=questionId", AnswerEntity.class);
-        List<AnswerEntity> resultList = query.getResultList();
-        return resultList;
+        try {
+            QuestionEntity questionEntity = entityManager.createNamedQuery("userByQuestionId", QuestionEntity.class).setParameter("uuid", questionId).getSingleResult();
+            Integer ID = questionEntity.getId();
+            return entityManager.createNamedQuery("getAllAnswersById", AnswerEntity.class).setParameter("questionEntity.id", ID).getResultList();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
 

@@ -82,55 +82,6 @@ public class UsersEntity implements Serializable {
     @Size(max = 50)
     private String contactnumber;
 
-//    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-//    private QuestionEntity questionEntity;
-
-//    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-//    private List<QuestionEntity> questions;
-//
-//    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-//    private List<AnswerEntity> answers;
-//
-//
-//    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-//    private List<UserAuthEntity> userAuthTokens;
-
-
-
-//    public List<QuestionEntity> getQuestions() {
-//        return questions;
-//    }
-//
-//    public void setQuestions(List<QuestionEntity> questions) {
-//        this.questions = questions;
-//    }
-//
-//    public List<AnswerEntity> getAnswers() {
-//        return answers;
-//    }
-//
-//    public void setAnswers(List<AnswerEntity> answers) {
-//        this.answers = answers;
-//    }
-//
-//    public List<UserAuthEntity> getUserAuthTokens() {
-//        return userAuthTokens;
-//    }
-//
-//    public void setUserAuthTokens(List<UserAuthEntity> userAuthTokens) {
-//        this.userAuthTokens = userAuthTokens;
-//    }
-
-
-
-
-//    public QuestionEntity getQuestionEntity() {
-//        return questionEntity;
-//    }
-
-//    public void setQuestionEntity(QuestionEntity questionEntity) {
-//        this.questionEntity = questionEntity;
-//    }
 
     public Integer getId() {
         return id;

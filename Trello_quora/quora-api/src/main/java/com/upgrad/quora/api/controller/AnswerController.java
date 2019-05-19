@@ -22,6 +22,7 @@ public class AnswerController {
     @Autowired
     AnswerBusinessService answerBusinessService;
 
+//    User can reply to a question by creating the answer.
     @RequestMapping(method= RequestMethod.POST , path="/question/{questionId}/answer/create", consumes= MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerResponse> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException {
         String answer = answerRequest.getAnswer();
@@ -31,6 +32,7 @@ public class AnswerController {
         return new ResponseEntity(answerResponse, HttpStatus.OK);
     }
 
+//  User can edit the answer if he has posted the answer.
     @RequestMapping(method= RequestMethod.PUT , path="/answer/edit/{answerId}", consumes= MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerEditResponse> editAnswerContent (final AnswerEditRequest answerEditRequest, @PathVariable("answerId") final String answerId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException, AnswerNotFoundException {
         String content = answerEditRequest.getContent();
@@ -39,16 +41,24 @@ public class AnswerController {
         return new ResponseEntity(answerEditResponse, HttpStatus.OK);
     }
 
-    @RequestMapping(method= RequestMethod.DELETE , path="/answer/delete/{answerId}", consumes= MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+
+//    Admin or user can delete the answer if he has posted the answer.
+    @RequestMapping(method= RequestMethod.DELETE , path="/answer/delete/{answerId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerDeleteResponse> deleteAnswer(@PathVariable("answerId") final String answerId, @RequestHeader("authorization") final String autherisation ) throws AuthorizationFailedException, AnswerNotFoundException {
         AnswerEntity answerEntity = answerBusinessService.deletedAnswer(answerId,autherisation);
+//        answerBusinessService.deletedAnswer(answerId,autherisation);
         AnswerDeleteResponse answerDeleteResponse = new AnswerDeleteResponse().id(answerEntity.getUuid()).status("ANSWER DELETED");
+//        AnswerDeleteResponse answerDeleteResponse = new AnswerDeleteResponse().id(answerId).status("ANSWER DELETED");
         return new ResponseEntity<AnswerDeleteResponse>(answerDeleteResponse, HttpStatus.OK);
 
     }
 
-    @RequestMapping(method= RequestMethod.GET , path="answer/all/{questionId}", consumes= MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+//  User can get the details of all the answers for a specific question.
+    @RequestMapping(method= RequestMethod.GET , path="answer/all/{questionId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<AnswerDetailsResponse>> getAllAnswersToQuestion (@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String autherisation ) throws AuthorizationFailedException, InvalidQuestionException {
+
         List<AnswerEntity> answerEntity = answerBusinessService.getAllAnswers(questionId,autherisation);
         List<AnswerDetailsResponse> answerDetailsResponses = new LinkedList<>();
         for(AnswerEntity ans: answerEntity){

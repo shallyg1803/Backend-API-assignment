@@ -22,6 +22,7 @@ public class QuestionController {
     @Autowired
     QuestionBusinessService questionBusinessService;
 
+//  User can create a question.
     @RequestMapping(method= RequestMethod.POST , path="/question/create", consumes= MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionResponse> createQuestion(final QuestionRequest questionRequest, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException {
         String content = questionRequest.getContent();
@@ -31,6 +32,7 @@ public class QuestionController {
         return new ResponseEntity(questionResponse, HttpStatus.OK);
     }
 
+//    User can get all questions.
     @RequestMapping(method= RequestMethod.GET , path="/question/all", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestions(@RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException {
         List<QuestionEntity> questionsList = questionBusinessService.getQuestions(autherisation);
@@ -42,6 +44,7 @@ public class QuestionController {
         return new ResponseEntity(questionDetailsResponse, HttpStatus.OK);
     }
 
+//   User can edit the question if he has posted the question.
     @RequestMapping(method= RequestMethod.PUT , path="/question/edit/{questionId}", consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionEditResponse> editQuestionContent (final QuestionEditRequest questionEditRequest, @PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException {
         String content = questionEditRequest.getContent();
@@ -51,6 +54,7 @@ public class QuestionController {
         return new ResponseEntity(questionEditResponse, HttpStatus.OK);
     }
 
+//  Admin or user can delete the question if he has posted the question.
     @RequestMapping(method= RequestMethod.DELETE , path="/question/delete/{questionId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException {
         QuestionEntity questionEntity = questionBusinessService.deleteQuestion(autherisation,questionId);
@@ -59,6 +63,7 @@ public class QuestionController {
         return new ResponseEntity(questionDeleteResponse, HttpStatus.OK);
     }
 
+//  User can get the details of all the questions posted by a specific user.
     @RequestMapping(method= RequestMethod.GET , path="question/all/{userId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestionsByUser (@PathVariable("userId") final String userId, @RequestHeader("authorization") final String autherisation) throws AuthorizationFailedException, InvalidQuestionException, UserNotFoundException {
         List<QuestionEntity> questionEntity = questionBusinessService.getAllQuestions(autherisation,userId);

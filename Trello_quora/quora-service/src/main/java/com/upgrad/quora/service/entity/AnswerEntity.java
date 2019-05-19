@@ -17,7 +17,8 @@ import java.time.ZonedDateTime;
 @Table(name = "answer")
 @NamedQueries(
         {
-                  @NamedQuery(name = "userByAnswerId", query = "select u from AnswerEntity u where u.uuid = :uuid")
+                @NamedQuery(name = "userByAnswerId", query = "select u from AnswerEntity u where u.uuid = :uuid"),
+                @NamedQuery(name = "getAllAnswersById", query = "select u from AnswerEntity u where u.questionEntity.id = :uuid"),
 
         }
 
@@ -25,9 +26,6 @@ import java.time.ZonedDateTime;
 
 
 public class AnswerEntity implements Serializable {
-
-//    id SERIAL,uuid VARCHAR(200) NOT NULL, ans VARCHAR(255) NOT NULL,date TIMESTAMP NOT NULL , user_id INTEGER NOT NULL, question_id INTEGER NOT NULL , PRIMARY KEY(id), FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE, FOREIGN KEY (question_id) REFERENCES QUESTION(id) ON DELETE CASCADE);
-//insert into answer(id,uuid,ans,date,user_id,question_id) values (1024,'database_answer_uuid','my_answer','2018-09-17 19:41:19.593',1026,1024);
 
     @Id
     @Column(name = "id")

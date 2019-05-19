@@ -106,8 +106,6 @@ public class UserBusinessService {
         final ZonedDateTime now = ZonedDateTime.now();
         userAuthEntity.setLogout_at(now);
         userDao.updateLogOutAt(userAuthEntity);
-//        Integer userID = userAuthEntity.getID();
-//        UsersEntity usersEntity = userDao.getUUID(userID);
         UsersEntity usersEntity = userAuthEntity.getUsersEntity();
         return usersEntity;
 

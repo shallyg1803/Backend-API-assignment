@@ -19,6 +19,7 @@ public class CommonController {
     @Autowired
     CommonBusinessService commonBusinessService;
 
+//    A user who needs to get the details of the other user
     @RequestMapping(method= RequestMethod.GET, path="/userprofile/{userId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDetailsResponse> userDetails(@PathVariable("userId") final String userId ,@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
         UsersEntity usersEntity = commonBusinessService.getUserDetails(userId, authorization);

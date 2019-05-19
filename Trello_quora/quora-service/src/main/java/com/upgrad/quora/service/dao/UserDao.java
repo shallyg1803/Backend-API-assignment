@@ -32,8 +32,7 @@ public class UserDao {
                 return null;
             }
         }
-//        entityManager.persist(usersEntity);
-//        return usersEntity;
+
     public UsersEntity createUser(UsersEntity userEntity) {
         entityManager.persist(userEntity);
         return userEntity;

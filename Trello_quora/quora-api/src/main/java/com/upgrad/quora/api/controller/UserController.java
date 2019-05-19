@@ -30,6 +30,8 @@ public class UserController {
     @Autowired
     private UserBusinessService userBusinessService;
 
+
+//  Each user who needs access to Quora application should signup using their valid email address and set a password for an authorized access.
     @RequestMapping(method= RequestMethod.POST, path="/user/signup", consumes= MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
 
@@ -44,11 +46,8 @@ public class UserController {
         usersEntity.setCountry(signupUserRequest.getCountry());
         usersEntity.setAboutMe(signupUserRequest.getAboutMe());
         usersEntity.setDob(signupUserRequest.getDob());
-        System.out.println(signupUserRequest.getContactNumber());
         usersEntity.setContactNumber(signupUserRequest.getContactNumber());
-        System.out.println("**************************");
-        System.out.println(signupUserRequest.getContactNumber());
-//        usersEntity.setRole("admin");
+//        usersEntity.setRole("nonadmin");
 
         final UsersEntity createdUser = userBusinessService.signup(usersEntity);
 
@@ -58,6 +57,7 @@ public class UserController {
     }
 
 
+//  Each user logs into Quora application using their username and password as credentials.
     @RequestMapping(method= RequestMethod.POST, path="/user/signin", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> signin(@RequestHeader("authorization") final String authorization ) throws AuthenticationFailedException {
         byte[] decode = Base64.getDecoder().decode(authorization.split("Basic ")[1]);
@@ -77,11 +77,9 @@ public class UserController {
 
     }
 
-
+//  User logs out of the Quora application.
     @RequestMapping(method= RequestMethod.POST, path="/user/signout", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signout(@RequestHeader("authorization") final String authorization) throws  SignOutRestrictedException {
-//        String [] bearerToken = authorization.split("Bearer ");
-//        UsersEntity userEntity = userBusinessService.getUser(bearerToken[1]);
         UsersEntity usersEntity = userBusinessService.getUserFromToken(authorization);
         SignoutResponse signoutResponse = new SignoutResponse().id(usersEntity.getUuid()).message("SIGNED OUT SUCCESSFULLY");
 

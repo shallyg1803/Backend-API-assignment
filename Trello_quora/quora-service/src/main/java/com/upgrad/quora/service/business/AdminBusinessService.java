@@ -7,6 +7,8 @@ import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -15,6 +17,7 @@ public class AdminBusinessService {
     @Autowired
     AdminDao adminDao;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public UsersEntity deleteUser(final String userId, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
 
         UserAuthEntity userAuthEntity = adminDao.getAuthToken(authorization);
